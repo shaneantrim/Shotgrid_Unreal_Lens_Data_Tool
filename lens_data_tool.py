@@ -2,28 +2,18 @@
 
 import shotgun_api3
 
-# Connect to Shotgrid
 SERVER_PATH = 'https://shaneantrim.shotgrid.autodesk.com'
 SCRIPT_NAME = 'unreal_lens_data_tool'
 SCRIPT_KEY = 'ahrtdp&hxvdbKgheha9sssufc'
 
 sg = shotgun_api3.Shotgun(SERVER_PATH, SCRIPT_NAME, SCRIPT_KEY)
 
-# Have the user enter the shot ID
-print([symbol for symbol in sorted(dir(sg)) if not symbol.startswith('_')])
-
-
-
-
-shot_id = unreal.EditorUtilityLibrary().InputBox(
-    "Enter the shot ID",
-    "Please enter the ID of the shot you want to query",
-    "",
-)
-
-# The filters for the query
-ENTITY_FILTERS = [
-    ['id', 'is', int(shot_id)],
+fields = ['id', 'equipment_name', 'sub_type', 'type']
+project_id = 5093
+page_id = 5785
+filters = [
+    ['project', 'is', {'type': 'Project', 'id': project_id}],
+    ['page', 'is', {'type': 'Page', 'id': page_id}]
 ]
 
 # Query Shotgrid for the lens data
